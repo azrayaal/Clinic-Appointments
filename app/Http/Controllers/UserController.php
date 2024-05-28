@@ -13,23 +13,6 @@ class UserController extends Controller
         return response()->json(['user', $user], 200);
     }
 
-    public function createUser(Request $request)
-    {
-        $this->validate($request, [
-            'name'     => 'required',
-            'email'    => 'required|email|unique:users',
-            'password' => 'required|min:6',
-        ]);
-
-        $user = User::create([
-            'name'     => $request->input('name'),
-            'email'    => $request->input('email'),
-            'password' => bcrypt($request->input('password')),
-        ]);
-
-        return response()->json(['user' => $user], 201);
-    }
-
     public function detailUser($id)
     {
         $user = User::find ($id);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Doctor;
 use App\Models\Treatment;
 use App\Models\User;
@@ -16,17 +17,29 @@ class AppointmentController extends Controller
         return response()->json(['appointments' => $appointments], 200);
     }
 
+    public function allAppointmentByUser()
+    {
+        $user = Auth::user();
+        $appointments = Appointment::with(['doctor', 'treatment'])
+            ->where('user_id', $user->id)
+            ->get();
+
+        return response()->json(['appointments' => $appointments], 200);
+    }
+
     public function createAppointment(Request $request)
     {
         $this->validate($request, [
-            'user_id' => 'required|exists:users,id',
+            // 'user_id' => 'required|exists:users,id',
             'doctor_id' => 'required|exists:doctors,id',
             'treatment_id' => 'required|exists:treatments,id',
             'date' => 'required|date_format:Y-m-d'
         ]);
 
+        $user_id = Auth::id();
+
         $appointment = Appointment::create([
-            'user_id' => $request->input('user_id'),
+            'user_id' => $user_id,
             'doctor_id' => $request->input('doctor_id'),
             'treatment_id' => $request->input('treatment_id'),
             'date' => $request->input('date')
@@ -37,9 +50,9 @@ class AppointmentController extends Controller
 
     public function detailAppointment($id)
     {
-        $appointment = Appointment::find ($id);
+        $appointment = Appointment::find($id);
 
-        if($appointment){
+        if ($appointment) {
             $appointments = Appointment::with(['user', 'doctor', 'treatment'])->get();
             return response()->json(['appointments' => $appointments], 200);
         }
@@ -68,13 +81,101 @@ class AppointmentController extends Controller
 
     public function deleteAppointment($id)
     {
-        $appointment = Appointment::find ($id);
+        $appointment = Appointment::find($id);
 
-        if($appointment){
+        if ($appointment) {
 
             $appointment->delete();
             return response()->json(['message' => 'Appointment Deleted'], 200);
         }
-      
+
     }
+
+    /////// view ////////
+
+    public function index()
+    {
+        $appointment = Appointment::all();
+        $pageTitle = 'Appointment';
+        $user = Auth::user();
+
+        $userAppointments = $user->appointments;
+
+        return view(
+            'pages.appointment.view-appointment',
+            compact('appointment', 'pageTitle', 'userAppointments', 'user')
+        );
+    }
+
+    public function viewAppointment()
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+        $pageTitle = 'Make Appointment';
+        $user = Auth::user();
+        $doctors = Doctor::all();
+        $treatments = Treatment::all();
+
+        return view('pages.appointment.create-appointment', compact('pageTitle', 'user', 'doctors', 'treatments'));
+    }
+
+
+
+    public function clientCreateAppointment(Request $request)
+    {
+        $user_id = Auth::user()->id;
+
+        $this->validate($request, [
+            'doctor_id' => 'required|exists:doctors,id',
+            'treatment_id' => 'required|exists:treatments,id',
+            'date' => 'required|date_format:Y-m-d'
+        ]);
+
+        $appointment = Appointment::create([
+            'user_id' => $user_id,
+            'doctor_id' => $request->input('doctor_id'),
+            'treatment_id' => $request->input('treatment_id'),
+            'date' => $request->input('date')
+        ]);
+
+        return redirect()->away('/appointment')->with('success', 'Appointment Created!.');
+    }
+
+
+    public function viewEditAppointment($id)
+    {
+        $pageTitle = 'Edit Appointment';
+        // $user = Auth::guard('admin')->user();
+
+        return view('pages.appointment.edit-appointment', compact('pageTitle'));
+    }
+
+    public function clientEditAppointment(Request $request)
+    {
+
+        $user_id = Auth::id();
+
+        $appointment = Appointment::create([
+            'user_id' => $user_id,
+            'doctor_id' => $request->input('doctor_id'),
+            'treatment_id' => $request->input('treatment_id'),
+            'date' => $request->input('date')
+        ]);
+
+        return redirect()->away('/appointment')->with('success', 'Appointment Created!.');
+    }
+
+    public function clientDeleteAppointment(Request $request, $id)
+    {
+        $appointment = Appointment::find($id);
+
+        if ($appointment) {
+            $appointment->delete();
+            return redirect()->away('/appointment')->with('success', 'Appointment Deleted!.');
+        } else {
+            return response()->json(['error' => 'Appointment not found'], 401);
+        }
+    }
+
 }

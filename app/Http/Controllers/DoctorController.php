@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Doctor;
 use App\Models\Treatment;
+use Illuminate\Support\Facades\Auth;
 
 class DoctorController extends Controller
 {
@@ -33,9 +34,9 @@ class DoctorController extends Controller
 
     public function detailDoctor($id)
     {
-        $doctor = Doctor::find ($id);
+        $doctor = Doctor::find($id);
 
-        if($doctor){
+        if ($doctor) {
             return response()->json($doctor, 200);
         }
         return response()->json(['message' => 'Doctor Not Found'], 200);
@@ -44,15 +45,15 @@ class DoctorController extends Controller
     public function updateDoctor(Request $request, $id)
     {
 
-        $doctor = Doctor::find ($id);
+        $doctor = Doctor::find($id);
 
-        if(!$doctor){
+        if (!$doctor) {
             return response()->json(['message' => 'Doctor Not Found'], 200);
         }
 
         $doctor->update([
-            'name'     => $request->input('name'),
-            'specialization'    => $request->input('specialization'),
+            'name' => $request->input('name'),
+            'specialization' => $request->input('specialization'),
         ]);
 
         return response()->json(['Doctor updated: ' => $doctor], 201);
@@ -60,11 +61,30 @@ class DoctorController extends Controller
 
     public function deleteDoctor($id)
     {
-        $doctor = Doctor::find ($id);
+        $doctor = Doctor::find($id);
 
-        if($doctor){
+        if ($doctor) {
             $doctor->delete();
             return response()->json(['message' => 'Doctor Deleted'], 200);
         }
+    }
+
+    /////// view ////////
+
+    public function index()
+    {
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
+
+        $doctor = Doctor::all();
+        $pageTitle = 'Doctor';
+        $user = Auth::user();
+
+        return view(
+            'pages.doctor.view-doctor',
+            compact('doctor', 'pageTitle', 'user')
+            //  , ['user' => $user]
+        );
     }
 }
