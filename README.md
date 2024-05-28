@@ -1,66 +1,313 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+How To Use Clinic-Appointment using postman
+Authorization using JWT
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+    Click tab authorization on postman
+    Choose Type "Bearer Token" on the left
+    Insert token on the right
 
-## About Laravel
+User API
+Register User
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+    URL: http://localhost:8000/api/register
+    Method: POST
+    Request Body:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+{
+"name": "admazra",
+"email": "azrsssa@gmail.com",
+"password": "1234567"
+}
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Login User
 
-## Learning Laravel
+    URL: http://localhost:8000/api/login
+    Method: POST
+    Request Body:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+{
+"email": "test@gmail.com",
+"password": "rahasia"
+}
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Get all User
 
-## Laravel Sponsors
+Need Authorization
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+    URL: http://localhost:8000/api/user
+    Method: GET
+    Request Body:
 
-### Premium Partners
+"user",
+[
+{
+"id": 1,
+"name": "azra",
+"email": "azra@gmail.com",
+"created_at": "2024-05-27T17:55:48.000000Z",
+"updated_at": "2024-05-27T17:55:48.000000Z"
+}
+]
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Remove User
 
-## Contributing
+Need Authorization
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    URL: http://localhost:8000/api/user/:id
+    Method: DELETE
+    Request Body:
 
-## Code of Conduct
+{
+"message": "User has been removed"
+}
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Doctor API
+Get All doctors
 
-## Security Vulnerabilities
+Need Authorization
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    URL: http://localhost:8000/api/doctor
+    Method: GET
+    Request Body:
 
-## License
+[
+{
+"id": 1,
+"name": "SOLEH",
+"specialization": "Dentist"
+}
+]
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-# Clinic-Appointment
-# Clinic-Appointment
+Add new Doctor
+
+Need Authorization
+
+    URL: http://localhost:8000/api/doctor
+    Method: POST
+    Request Body:
+
+{
+"name": "SOLEH",
+"specialization": "Dentist"
+}
+
+Get detail Doctor
+
+Need Authorization
+
+    URL: http://localhost:8000/api/doctor/:id
+    Method: GET
+    Request Body:
+
+{
+"id": 1,
+"name": "SOLEH",
+"specialization": "Dentist"
+"created_at": "2024-200-20"
+}
+
+Update Doctor
+
+Need Authorization
+
+    URL: http://localhost:8000/api/doctor/:id
+    Method: PUT
+    Request Body:
+
+{
+"name": "Satrio",
+"specialization": "Ortopedi"
+}
+
+Remove Doctor
+
+Need Authorization
+
+    URL: http://localhost:8000/api/doctor/:id
+    Method: DELETE
+    Request Body:
+
+{
+message: "Doctor has been removed"
+}
+
+Treatment API
+Get all Treatments
+
+Need Authorization
+
+    URL: http://localhost:8000/api/treatment
+    Method: GET
+    Request Body:
+
+[
+{
+"id": 1,
+"name": "Ortopedi222",
+"description": "Diagnosis, pengobatan, pencegahan, dan rehabilitasi dari gangguan dan cedera pada sistem saraf, ulang, sendi, otot, ligamen, dan tendon."
+}
+
+]
+
+Create new Treatment
+
+Need Authorization
+
+    URL: http://localhost:8000/api/treatment
+    Method: POST
+    Request Body:
+
+{
+"name": "Ortopedi222",
+"description": "Diagnosis, pengobatan, pencegahan, dan rehabilitasi dari gangguan dan cedera pada sistem saraf, ulang, sendi, otot, ligamen, dan tendon."
+}
+
+Get detail Treatment
+
+Need Authorization
+
+    URL: http://localhost:8000/api/treatment/:id
+    Method: GET
+    Request Body:
+
+{
+"id": 1,
+"name": "Ortopedi222",
+"description": "Diagnosis, pengobatan, pencegahan, dan rehabilitasi dari gangguan dan cedera pada sistem saraf, ulang, sendi, otot, ligamen, dan tendon."
+}
+
+Update Treatment
+
+Need Authorization
+
+    URL: http://localhost:8000/api/treatment/:id
+    Method: PUT
+    Request Body:
+
+{
+"name": "Ortopedi222",
+"description": "Diagnosis, pengobatan, pencegahan, dan rehabilitasi dari gangguan dan cedera pada sistem saraf, ulang, sendi, otot, ligamen, dan tendon."
+}
+
+Delete Treatment
+
+Need Authorization
+
+    URL: http://localhost:4000/api/v1/party/:id
+    Method: DELETE
+    Request Body:
+
+{
+message: "Treatment has been removed"
+}
+
+Appointment API
+Get all Appointment
+
+Need Authorization
+
+    URL: http://localhost:8000/api/appointment
+    Method: GET
+    Request Body:
+
+[
+{
+"id": 6,
+"user_id": 4,
+"doctor_id": 2,
+"treatment_id": 1,
+"date": "2024-01-24",
+"created_at": "2024-05-28T00:05:04.000000Z",
+"updated_at": "2024-05-28T00:05:04.000000Z",
+"user": {
+"id": 4,
+"name": "test",
+"email": "test@gmail.com",
+"created_at": "2024-05-27T22:16:33.000000Z",
+"updated_at": "2024-05-27T22:16:33.000000Z"
+},
+"doctor": {
+"id": 2,
+"name": "Jhonny2",
+"specialization": "Ortopedi",
+"created_at": "2024-05-27T18:07:02.000000Z",
+"updated_at": "2024-05-27T18:07:02.000000Z"
+},
+"treatment": {
+"id": 1,
+"name": "Ortopedi222",
+"description": "Diagnosis, pengobatan, pencegahan, dan rehabilitasi dari gangguan dan cedera pada sistem saraf, ulang, sendi, otot, ligamen, dan tendon.",
+"created_at": "2024-05-27T17:56:00.000000Z",
+"updated_at": "2024-05-27T17:56:00.000000Z"
+}
+}
+]
+
+Make new Appointment
+
+Need Authorization
+
+    URL: http://localhost:8000/api/appointment
+    Method: POST
+    Request Body:
+
+{
+"doctor_id": 2,
+"treatment_id": 1,
+"date": "2024-01-24"
+}
+
+Get detail Appointment
+
+Need Authorization
+
+    URL: http://localhost:8000/api/appointment/:id
+    Method: GET
+    Request Body:
+
+{
+"id": 1,
+"doctor_id": 2,
+"treatment_id": 1,
+"date": "2024-01-24"
+}
+
+Get detail Appointment by user Login
+
+Need Authorization
+
+    URL: http://localhost:8000/api/appointment
+    Method: GET
+    Request Body:
+
+{
+"id": 1,
+"doctor_id": 2,
+"treatment_id": 1,
+"date": "2024-01-24"
+}
+
+Update Appointment
+
+Need Authorization
+
+    URL: http://localhost:8000/api/appointment/:id
+    Method: PUT
+    Request Body:
+
+{
+"doctor_id": 2,
+"treatment_id": 1,
+"date": "2024-01-24"
+}
+
+Cancel Appointment
+
+Need Authorization
+
+    URL: http://localhost:8000/api/appointment/:id
+    Method: DELETE
+    Request Body:
+
+{
+message: "Appointment has been removed"
+}
