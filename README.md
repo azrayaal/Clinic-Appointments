@@ -1,3 +1,8 @@
+How to install Clinic-Appointment
+1.composer install
+2.php artisan migrate (you can use my sql_dummy for the database)
+3.php artisan serve
+
 How To Use Clinic-Appointment using postman
 Authorization using JWT
 
